@@ -1,11 +1,24 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const mongoose = require('mongoose');
+
+require('dotenv').config(); //on le met aprés avoir fait npm i dotenv pour importer le .env
 
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
+// DeprecationWarning: Mongoose: the `strictQuery` option will be switched back to `false` by default in Mongoose 7. Use `mongoose.set('strictQuery', false)
+mongoose.set('strictQuery', true);
+//conexion à la base de données
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@freelance.dprdnqv.mongodb.net/?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    console.log('Successfully connect to database');
+  })
+  .catch((err) => console.log(err));
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log('Vous êtes connecté');
 });
