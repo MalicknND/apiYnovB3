@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser'); //permet de parser tous les modules
+const apiRouter = require('./routes/index');
 
 require('dotenv').config(); //on le met aprés avoir fait npm i dotenv pour importer le .env
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+app.use(bodyParser.json());
+
 // DeprecationWarning: Mongoose: the `strictQuery` option will be switched back to `false` by default in Mongoose 7. Use `mongoose.set('strictQuery', false)
 mongoose.set('strictQuery', true);
 //conexion à la base de données
@@ -18,6 +19,8 @@ mongoose
     console.log('Successfully connect to database');
   })
   .catch((err) => console.log(err));
+
+app.use('/api/v1/', apiRouter);
 
 app.listen(process.env.PORT, () => {
   console.log('Vous êtes connecté');
