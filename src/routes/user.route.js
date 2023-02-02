@@ -5,3 +5,5 @@ const verifyToken = require('../middlewares/verifyToken');
 
 //methode get
 router.get('/', verifyToken, userController.getUser);
+
+module.exports = router;

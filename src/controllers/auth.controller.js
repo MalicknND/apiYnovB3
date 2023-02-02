@@ -48,7 +48,7 @@ exports.login = (req, res) => {
       let userToken = jwt.sign(
         {
           id: user._id,
-          // isAdmin: user.isAdmin,
+          isAdmin: user.isAdmin,
         },
         process.env.JWT_SECRET
       );
