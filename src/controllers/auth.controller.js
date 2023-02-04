@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 //cryptage de mot de passe
 const bcrypt = require('bcrypt');
 
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
   let hashedPassword = bcrypt.hashSync(req.body.password, 10);
   const newUser = new User({
     firstName: req.body.firstName,
@@ -21,8 +21,9 @@ exports.register = async (req, res) => {
   try {
     const newUserToSave = await newUser.save();
     return res.send(newUserToSave);
-  } catch (error) {
-    res.status(400).send(error);
+  } catch (err) {
+    //res.status(400).send(error);
+    next(err);
   }
 };
 
