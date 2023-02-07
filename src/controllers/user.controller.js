@@ -39,7 +39,7 @@ exports.updateUser = (req, res) => {
 exports.deleteUser = (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((user) => {
-      res.send(user);
+      res.send({ message: 'User deleted successfully' });
     })
     .catch((err) => {
       res.status(400).send(err);

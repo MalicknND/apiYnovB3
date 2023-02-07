@@ -4,6 +4,7 @@ const missionSchema = mongoose.Schema({
   dateOfStart: {
     type: 'Date',
     required: true,
+    default: Date.now,
   },
   dateOfEnd: {
     type: 'Date',
@@ -33,8 +34,12 @@ const missionSchema = mongoose.Schema({
         ref: 'Skills',
       },
     ],
-    required: true,
-    validate: [arrayLimit, 'A mission should have at least one skill'],
+    required: [true, 'A mission should have at least one skill'],
+  },
+  status: {
+    type: String,
+    enum: ['en cours', 'clôturé'],
+    default: 'en cours',
   },
 });
 

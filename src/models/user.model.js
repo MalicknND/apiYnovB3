@@ -34,6 +34,11 @@ const userSchema = mongoose.Schema({
     required: true,
     lowercase: true,
   },
+  city: {
+    type: 'String',
+    required: true,
+    lowercase: true,
+  },
   zipCode: {
     type: 'Number',
     required: true,

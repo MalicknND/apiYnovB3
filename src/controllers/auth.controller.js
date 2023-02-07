@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-
+const nodemailer = require('nodemailer');
 //importation de jwt pour le token
 const jwt = require('jsonwebtoken');
 //cryptage de mot de passe
@@ -13,6 +13,7 @@ exports.register = async (req, res, next) => {
     password: hashedPassword,
     email: req.body.email,
     address: req.body.address,
+    city: req.body.city,
     zipCode: req.body.zipCode,
     phone: req.body.phone,
     typeOfUser: req.body.typeOfUser,
@@ -20,6 +21,29 @@ exports.register = async (req, res, next) => {
 
   try {
     const newUserToSave = await newUser.save();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'apiprojet83@gmail.com',
+        pass: 'oodzsdwrqhuizzwv',
+      },
+      tls: {
+        rejeectUnauthorized: false,
+      },
+    });
+    var mailOpitons = {
+      from: `Compte crée <apiprojet83@gmail.com>`,
+      to: newUser.email,
+      cc: 'ndiayemalick062@gmail.com',
+      subject: 'Welcome',
+      html: '<h2>Merci pour votre inscription</h2>',
+    };
+    transporter.sendMail(mailOpitons, function (error, info) {
+      if (error) {
+        console.log(error);
+      }
+    });
+
     return res.send(newUserToSave);
   } catch (err) {
     //res.status(400).send(error);
