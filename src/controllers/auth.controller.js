@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 //cryptage de mot de passe
 const bcrypt = require('bcrypt');
 
+require('dotenv').config();
+
 exports.register = async (req, res, next) => {
   let hashedPassword = bcrypt.hashSync(req.body.password, 10);
   const newUser = new User({
@@ -24,8 +26,8 @@ exports.register = async (req, res, next) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'apiprojet83@gmail.com',
-        pass: 'ixxrqayxbfzvdzsb',
+        user: process.env.EMAIL_SENDER,
+        pass: process.env.EMAIL_SENDER_PASSWORD,
       },
       tls: {
         rejeectUnauthorized: false,
