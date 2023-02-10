@@ -25,26 +25,28 @@ exports.register = async (req, res, next) => {
       service: 'gmail',
       auth: {
         user: 'apiprojet83@gmail.com',
-        pass: 'oodzsdwrqhuizzwv',
+        pass: 'ixxrqayxbfzvdzsb',
       },
       tls: {
         rejeectUnauthorized: false,
       },
     });
-    var mailOpitons = {
-      from: `Compte crée <apiprojet83@gmail.com>`,
+    const mailOpitons = {
+      from: 'apiprojet83@gmail.com',
       to: newUser.email,
       cc: 'ndiayemalick062@gmail.com',
-      subject: 'Welcome',
-      html: '<h2>Merci pour votre inscription</h2>',
+      subject: "Confirmation de l'inscription",
+      text: `Bonjour ${newUser.firstName}, votre inscription est confirmée.`,
     };
     transporter.sendMail(mailOpitons, function (error, info) {
       if (error) {
         console.log(error);
+      } else {
+        console.log(`Email sent: ${info.response}`);
       }
     });
 
-    return res.send(newUserToSave);
+    return res.send({ message: 'Your account is successfully created' });
   } catch (err) {
     //res.status(400).send(error);
     next(err);
